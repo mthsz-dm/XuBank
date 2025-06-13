@@ -6,7 +6,7 @@ public class ContaPoupanca extends Conta {
     }
 
     public void aplicarRendimento() {
-        saldo *= 1.006; // 0.60%
+        saldo *= 1.006;
     }
 
     @Override

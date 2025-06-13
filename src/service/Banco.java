@@ -59,4 +59,8 @@ public class Banco {
     public List<Cliente> getClientes() {
         return clientes;
     }
+    public List<Conta> getContas() {
+        return contas;
+    }
+
 }
