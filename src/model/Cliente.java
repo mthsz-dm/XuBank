@@ -31,7 +31,7 @@ public class Cliente {
     public String getExtratos() {
         StringBuilder sb = new StringBuilder();
         for (Conta conta : contas) {
-            sb.append(conta.getExtratoMensal()).append("\n");
+            sb.append(conta.getSaldoExtrato()).append("\n");
         }
         return sb.toString();
     }

@@ -1,5 +1,3 @@
-package service;
-
 import model.*;
 
 import java.util.*;

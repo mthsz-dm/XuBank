@@ -1,5 +1,7 @@
 package model;
 
+import java.time.LocalDate;
+
 public class ContaCorrente extends Conta {
     private double limiteCredito;
 
@@ -12,6 +14,7 @@ public class ContaCorrente extends Conta {
     public boolean sacar(double valor) {
         if (valor <= saldo + limiteCredito) {
             saldo -= valor;
+            registrarDeposito(valor);
             return true;
         }
         return false;
@@ -25,6 +28,7 @@ public class ContaCorrente extends Conta {
         } else {
             saldo += valor;
         }
+        registrarSaque(valor);
         return true;
     }
 }

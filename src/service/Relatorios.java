@@ -1,5 +1,3 @@
-package service;
-
 import model.Cliente;
 import model.Conta;
 
@@ -7,15 +5,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Relatorios {
-
-    public static List<Cliente> getTopClientes(List<Cliente> clientes, int n) {
-        return clientes.stream()
-                .sorted(Comparator.comparingDouble(Cliente::getSaldoTotal).reversed())
-                .limit(n)
-                .toList();
-    }
-
-    public static List<Cliente> getClientesNegativados(List<Cliente> clientes) {
+    
+public static List<Cliente> getClientesNegativados(List<Cliente> clientes) {
         return clientes.stream()
                 .filter(c -> c.getSaldoTotal() < 0)
                 .toList();
@@ -40,4 +31,18 @@ public class Relatorios {
                 c.getNome(), c.getCpf(), c.getContas().size(), c.getSaldoTotal()
         )).toList();
     }
+    public static void exibirMovimentacoes(List<Cliente> clientes) {
+    for (Cliente cliente : clientes) {
+        System.out.println("Cliente: " + cliente.getNome());
+        for (Conta conta : cliente.getContas()) {
+            System.out.println("Conta #" + conta.getNumero() + " (" + conta.getClass().getSimpleName() + ")");
+            for (String operacao : conta.getHistoricoOperacoes()) {
+                System.out.println(" - " + operacao);
+            }
+        }
+        System.out.println("--------------------------------------------------");
+    }
+}
+
+    
 }

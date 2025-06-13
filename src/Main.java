@@ -1,7 +1,4 @@
 import model.*;
-import service.Banco;
-import service.Relatorios;
-
 import java.util.List;
 import java.util.Scanner;
 
@@ -143,67 +140,64 @@ public class Main {
         System.out.println("Extratos:");
         System.out.println(cliente.getExtratos());
     }
-private static void verRelatorios() {
-    int escolha;
-    do {
-        System.out.println("\n===== Relatórios =====");
-        System.out.println("1. Saldo médio, maior e menor");
-        System.out.println("2. Custódia por tipo de conta");
-        System.out.println("3. Top N clientes com maior saldo");
-        System.out.println("4. Clientes com saldo negativo");
-        System.out.println("5. Contas com saldo abaixo de um valor");
-        System.out.println("6. Resumo geral de todos os clientes");
-        System.out.println("0. Voltar");
-        System.out.print("Escolha: ");
-        escolha = scanner.nextInt();
-        scanner.nextLine();
+    private static void verRelatorios() {
+        int escolha;
+        do {
+            System.out.println("\n===== Relatórios =====");
+            System.out.println("1. Saldo médio, maior e menor");
+            System.out.println("2. Custódia por tipo de conta");
+            //System.out.println("3. Top N clientes com maior saldo");
+            System.out.println("3. Clientes com saldo negativo");
+            System.out.println("4. Contas com saldo abaixo de um valor");
+            System.out.println("5. Resumo geral de todos os clientes");
+            System.out.println("6. Exibir movimentações dos clientes");
+            System.out.println("0. Voltar");
+            System.out.print("Escolha: ");
+            escolha = scanner.nextInt();
+            scanner.nextLine();
 
-        switch (escolha) {
-            case 1 -> {
-                System.out.printf("Saldo médio das contas: R$ %.2f\n", banco.getSaldoMedio());
-                Cliente maior = banco.getClienteMaiorSaldo();
-                Cliente menor = banco.getClienteMenorSaldo();
-                if (maior != null) {
-                    System.out.printf("Cliente com maior saldo: %s (R$ %.2f)\n", maior.getNome(), maior.getSaldoTotal());
+            switch (escolha) {
+                case 1 -> {
+                    System.out.printf("Saldo médio das contas: R$ %.2f\n", banco.getSaldoMedio());
+                    Cliente maior = banco.getClienteMaiorSaldo();
+                    Cliente menor = banco.getClienteMenorSaldo();
+                    if (maior != null) {
+                        System.out.printf("Cliente com maior saldo: %s (R$ %.2f)\n", maior.getNome(), maior.getSaldoTotal());
+                    }
+                    if (menor != null) {
+                        System.out.printf("Cliente com menor saldo: %s (R$ %.2f)\n", menor.getNome(), menor.getSaldoTotal());
+                    }
                 }
-                if (menor != null) {
-                    System.out.printf("Cliente com menor saldo: %s (R$ %.2f)\n", menor.getNome(), menor.getSaldoTotal());
+                case 2 -> {
+                    System.out.println("Custódia por tipo de conta:");
+                    banco.getCustodiaPorTipo().forEach((tipo, total) ->
+                        System.out.printf("- %s: R$ %.2f\n", tipo, total));
                 }
+
+                case 3 -> {
+                    System.out.println("Clientes com saldo negativo:");
+                    var negativos = Relatorios.getClientesNegativados(banco.getClientes());
+                    negativos.forEach(c -> System.out.printf("- %s | R$ %.2f\n", c.getNome(), c.getSaldoTotal()));
+                }
+                case 4 -> {
+                    System.out.print("Informe o valor limite: R$ ");
+                    double limite = scanner.nextDouble();
+                    scanner.nextLine();
+                    var contas = Relatorios.getContasComSaldoAbaixo(banco.getContas(), limite);
+                    contas.forEach(c -> System.out.printf("- Conta %d (%s) | Saldo: R$ %.2f\n",
+                            c.getNumero(), c.getClass().getSimpleName(), c.getSaldo()));
+                }
+                case 5 -> {
+                    System.out.println("Resumo geral dos clientes:");
+                    Relatorios.getResumoClientes(banco.getClientes()).forEach(System.out::println);
+                }
+                case 6-> {
+                    Relatorios.exibirMovimentacoes(banco.getClientes());
+                }
+                case 0 -> System.out.println("Voltando ao menu principal...");
+                default -> System.out.println("Opção inválida.");
             }
-            case 2 -> {
-                System.out.println("Custódia por tipo de conta:");
-                banco.getCustodiaPorTipo().forEach((tipo, total) ->
-                    System.out.printf("- %s: R$ %.2f\n", tipo, total));
-            }
-            case 3 -> {
-                System.out.print("Quantos clientes deseja listar? ");
-                int n = scanner.nextInt();
-                scanner.nextLine();
-                var top = Relatorios.getTopClientes(banco.getClientes(), n);
-                System.out.println("Top " + n + " clientes com maior saldo:");
-                top.forEach(c -> System.out.printf("- %s | Saldo: R$ %.2f\n", c.getNome(), c.getSaldoTotal()));
-            }
-            case 4 -> {
-                System.out.println("Clientes com saldo negativo:");
-                var negativos = Relatorios.getClientesNegativados(banco.getClientes());
-                negativos.forEach(c -> System.out.printf("- %s | R$ %.2f\n", c.getNome(), c.getSaldoTotal()));
-            }
-            case 5 -> {
-                System.out.print("Informe o valor limite: R$ ");
-                double limite = scanner.nextDouble();
-                scanner.nextLine();
-                var contas = Relatorios.getContasComSaldoAbaixo(banco.getContas(), limite);
-                contas.forEach(c -> System.out.printf("- Conta %d (%s) | Saldo: R$ %.2f\n",
-                        c.getNumero(), c.getClass().getSimpleName(), c.getSaldo()));
-            }
-            case 6 -> {
-                System.out.println("Resumo geral dos clientes:");
-                Relatorios.getResumoClientes(banco.getClientes()).forEach(System.out::println);
-            }
-            case 0 -> System.out.println("Voltando ao menu principal...");
-            default -> System.out.println("Opção inválida.");
-        }
-    } while (escolha != 0);
-}
+        } while (escolha != 0);
+    }
     
 }

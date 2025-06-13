@@ -1,5 +1,7 @@
 package model;
 
+import java.time.LocalDate;
+
 public class ContaRendaFixa extends Conta {
     private double rendimentoMensal;
 
@@ -22,6 +24,7 @@ public class ContaRendaFixa extends Conta {
         double total = valor + imposto;
         if (total <= saldo) {
             saldo -= total;
+            registrarSaque(valor);
             return true;
         }
         return false;
@@ -30,6 +33,7 @@ public class ContaRendaFixa extends Conta {
     @Override
     public boolean depositar(double valor) {
         saldo += valor;
+        registrarDeposito(valor);
         return true;
     }
 }
