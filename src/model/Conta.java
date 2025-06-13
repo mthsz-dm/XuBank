@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Conta {
+public abstract class Conta implements IOperacoes {
     protected static int proximoNumero = 1;
     protected int numero;
     protected double saldo;
@@ -16,9 +16,6 @@ public abstract class Conta {
         this.cliente = cliente;
         this.saldo = 0.0;
     }
-
-    public abstract boolean sacar(double valor);
-    public abstract boolean depositar(double valor);
 
     public double getSaldo() {
         return saldo;

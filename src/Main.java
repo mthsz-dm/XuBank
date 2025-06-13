@@ -1,4 +1,7 @@
 import model.*;
+import service.Banco;
+import service.Relatorios;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -192,7 +195,7 @@ public class Main {
                     Relatorios.getResumoClientes(banco.getClientes()).forEach(System.out::println);
                 }
                 case 6-> {
-                    Relatorios.exibirMovimentacoes(banco.getClientes());
+                    Relatorios.getMovimentacoes(banco.getClientes());
                 }
                 case 0 -> System.out.println("Voltando ao menu principal...");
                 default -> System.out.println("Opção inválida.");

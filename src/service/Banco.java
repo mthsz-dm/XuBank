@@ -1,5 +1,6 @@
-import model.*;
+package service;
 
+import model.*;
 import java.util.*;
 import java.util.stream.Collectors;
 

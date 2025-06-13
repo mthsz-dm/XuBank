@@ -1,3 +1,5 @@
+package service;
+
 import model.Cliente;
 import model.Conta;
 
@@ -31,18 +33,16 @@ public static List<Cliente> getClientesNegativados(List<Cliente> clientes) {
                 c.getNome(), c.getCpf(), c.getContas().size(), c.getSaldoTotal()
         )).toList();
     }
-    public static void exibirMovimentacoes(List<Cliente> clientes) {
-    for (Cliente cliente : clientes) {
-        System.out.println("Cliente: " + cliente.getNome());
-        for (Conta conta : cliente.getContas()) {
-            System.out.println("Conta #" + conta.getNumero() + " (" + conta.getClass().getSimpleName() + ")");
-            for (String operacao : conta.getHistoricoOperacoes()) {
-                System.out.println(" - " + operacao);
+    public static void getMovimentacoes(List<Cliente> clientes) {
+        for (Cliente cliente : clientes) {
+            System.out.println("Cliente: " + cliente.getNome());
+            for (Conta conta : cliente.getContas()) {
+                System.out.println("Conta #" + conta.getNumero() + " (" + conta.getClass().getSimpleName() + ")");
+                for (String operacao : conta.getHistoricoOperacoes()) {
+                    System.out.println(" - " + operacao);
+                }
             }
+            System.out.println("--------------------------------------------------");
         }
-        System.out.println("--------------------------------------------------");
     }
-}
-
-    
 }
